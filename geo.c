@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include <string.h>
 #define PI 3.14
@@ -52,47 +53,100 @@ float atriangle(point a,point b, point c, point d) // По формуле Гер
 int main()
 {
     char string[64];
-    gets(string);
-    char* suffix;
-    suffix = &string[12];
-    printf("suffix: %s", suffix);
-    if(string[strlen(string) - 1] != ')')
+    do
     {
-	printf("Error at column %d: expected ')' ", strlen(string)-1);
-    }
-    
-    if((strstr(string, "circle(") != NULL) && (string[strlen(string) - 1] == ')')) //strcmp - сравнивает строки, strstr - содержится ли строка 
-    {
-	printf("Done");
-	point a = {string[7], string[9]};
-	//pcircle(a, );
-	//acircle(a, );
-    }
-    else if((strstr(string, "triangle(") != NULL) && (string[strlen(string) - 1] == ')')) //strcmp - сравнивает строки, strstr - содержится ли строка.
-    {
-	printf("Done");
-	//ptriangle();
-	//atriandle();
-    }
-    else if((strstr(string, "polygon(") != NULL) && (string[strlen(string) - 1] == ')')) //strcmp - сравнивает строки, strstr - содержится ли строка.
-    {
-	printf("Done");
-    }
-    else
-    {
-	printf("Error at column 0: expected 'circle', 'triangle' or 'polygon' ");
-    }
-    /*
-    point center = {0,0};
-    float rad = 3;
-    //printf("P = %f; S = %f\n", pcircle(center, rad), acircle(center,rad));
-    
-    point a = {2,3};
-    point b = {5,5};
-    point c = {9,7};
-    //printf("P = %f; S=%f", ptriangle(a,b,c,a), atriandle(a,b,c,a)); 
-    printf("%d,%d\n",funVector(a,b).a,funVector(a,b).b);
-    printf("%f",lenVector(funVector(a,b))); */
-    
+        gets(string);
+        int length = strlen(string);
+        char* end;
+        char* start;
+        char* next;
+        for(int i; i < length; i++ )
+        {   
+            if(string[i] == ')')
+            {
+                end = &string[i];
+            }
+
+            if(string[i] == '(')
+            {
+                start = &string[i];
+            }
+        }
+
+        if(end == NULL)
+        {
+            printf("Error at column %d: expected ')' \n", (int)(end-string)); //разность указатлей возвращает их длину
+            continue;
+        }
+        else
+        {
+            for(int i = 0; i < strlen(end); i++)
+            {
+                if(((int)end[i+1] == (int)'\0') || ((int)end[i+1] == (int)' '))
+                {
+                    continue;
+                }
+                else
+                {
+                    printf("Error at column %d: unexpected token\n",(int)(end-string)+i+1 ); 
+                    break;
+                }
+            }
+        }
+
+        if((strstr(string, "circle(") != NULL)) //strcmp - сравнивает строки, strstr - содержится ли строка 
+        {
+            printf("Done\n");
+            point a;
+            double rad;
+            char number[10];
+            for(int i; i < (int)(end - start); i++ )
+            {
+                if(start[i+1] == ' ' ||start[i+1] == ','|| start[i+1] == '.'||start[i+1] == ')')
+                {
+                    continue;
+                }
+
+                if( ((int)start[i+1] > (int)'0') && ((int)start[i+1] < (int)'9') )
+                {   
+                    if(a.x == NULL)
+                    {
+                        a.x = (int)start[i+1];
+                    }
+                    else if(a.y == NULL)
+                    {
+                        a.y = (int)start[i+1];
+                    }
+                    else
+                    {
+                        next = &start[i-1];
+                    }
+                }
+                else
+                {
+                    printf("Error at column %d: expected '<double>'\n", i+1);
+                    break;
+                }
+            }
+            rad = atof(next);
+            printf("rad: %f", rad);
+        }
+        /*
+        else if((strstr(string, "triangle(") != NULL)) //strcmp - сравнивает строки, strstr - содержится ли строка.
+        {
+            printf("Done");
+            //ptriangle();
+            //atriandle();
+        }
+        else if((strstr(string, "polygon(") != NULL)) //strcmp - сравнивает строки, strstr - содержится ли строка.
+        {
+            printf("Done");
+        }
+        else
+        {
+            printf("Error at column 0: expected 'circle', 'triangle' or 'polygon' ");
+        }
+        */
+    }while(string != "q");
     return 0;
 }
