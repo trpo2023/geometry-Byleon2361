@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#define PI 3.14
 typedef struct Point 
 {
     int x;
@@ -23,13 +22,13 @@ double lenVector(vector vec)
     return sqrt(vec.a * vec.a + vec.b * vec.b);
 }
 
-float pcircle(point center, int rad)
+float pcircle(point center, double rad)
 {
-    return 2 * PI * rad;
+    return 2 * M_PI * rad;
 }
-float acircle(point center, int rad)
+float acircle(point center, double rad)
 {
-    return PI * rad * rad;
+    return M_PI * rad * rad;
 }
 
 float ptriangle(point a, point b,point c, point d)
@@ -48,71 +47,56 @@ float atriangle(point a,point b, point c, point d) // По формуле Гер
     return sqrt(p*(p-ta)*(p-tb)*(p-tc));
     
 }
-void Exception(char* string,int number , int *rad, point *a, point *b, point *c, point *d)// number - количесвто аргументов
+void Exception(char* string)
 {
-        int length = strlen(string);
-        char* end;
-        char* start;
-        for(int i; i < length; i++ )
+    int length = strlen(string);
+    char* end;
+    char* start;
+    for(int i = 0 ; i < length; i++ )
+    {
+         if(string[i] == ')')
         {
-            if(string[i] == ')')
-            {
-                end = &string[i];
-            }
+            end = &string[i];
+        }
+        if(string[i] == '(')
+        {
+            start = &string[i];
+        }
+    }        
+    if(end == NULL)
+    {
+        printf("Error at column %d: expected ')' \n", length - 1); 
+        exit(EXIT_FAILURE);
+    }
 
-            if(string[i] == '(')
-            {
-                start = &string[i];
-            }
-        }
-            
-        if(end == NULL)// Проверка )
+    for(int i = 0; i < strlen(end);i++) 
+    {
+        if(!(end[i+1] == ' ' || end[i+1] == '\000' ))
         {
-            printf("Error at column %d: expected ')' \n", (int)(end-string)); //разность указатлей возвращает их длину
-	    exit(EXIT_FAILURE);
+            printf("Error at column %d: unexpected token\n", length );
+            exit(EXIT_FAILURE);
         }
-        
-        for(int i = 0; i < strlen(end); i++) // Проверка на конеченые символы
-        {
-            if(((int)end[i+1] != (int)'\0') || ((int)end[i+1] != (int)' '))
-            {
-                printf("Error at column %d: unexpected token\n",(int)(end-string)+i+1 );
-                exit(EXIT_FAILURE);
-            }
-        }
-        int j = 0;
-        for(int i = 0;(i < end - start) && (j < number);i++)
-        {
-    	        if(start[i+1] == ' ' ||start[i+1] == ','|| start[i+1] == '.'||start[i+1] == ')')
-                {
-                    continue;
-                }
+    }
 
-                if( ((int)start[i+1] > (int)'0') && ((int)start[i+1] < (int)'9') )
-                {
-                    if(a->x == NULL)
-                    {
-                        a->x = atoi(start[i+1]);
-                    }
-                    else if (a->y== NULL)
-                    {
-                        a->y = atoi(start[i+1]);
-		    }
-		    else
-		    {
-			*rad = atof(start[i+1]);
-		    }
-                }
-                else
-                {
-                    printf("Error at column %d: expected '<double>'\n", i+1);
-                    exit(EXIT_FAILURE);
-                }
+    for(int i = 0; i < end - start;i++) 
+    {
+        if(!(start[i+1] == ' ' || start[i+1] == ',' || start[i+1] == '.' || start[i+1] == ')'  || ((int)start[i+1] >= (int)'0' && (int)start[i+1] <= (int)'9')))
+        {
+            printf("Error at column %d: expected '<double>'\n", i+1);
+            exit(EXIT_FAILURE);
         }
+    }
+      
 }
 
 int main()
 {
+    puts("Введите название фигуры и передайте значения по образцу:\n\n\
+Object = 'circle' '(' Point ',' Number ')'\n\
+| 'triangle' '(' '(' Point ',' Point ',' Point ',' Point ')' ')'\n\
+| 'polygon' '(' '(' Point ',' Point ',' Point {',' Point } ')' ')'\n\n\
+Пример: circle(0 0, 1.5)\n\n\
+Для того, чтобы выйти введите q.\n");
     char string[64];
     do
     {
@@ -120,32 +104,31 @@ int main()
         if((strstr(string, "circle(") != NULL)) //strcmp - сравнивает строки, strstr - содержится ли строка 
         {
     	    point a;
-    	    double rad;
-    	    Exception(string, 3, &rad, &a, NULL, NULL, NULL);
+    	    double rad = 0;
+    	    Exception(string);
+            sscanf(string, "circle(%d %d, %lf)", &a.x, &a.y, &rad);
             printf("Done\n");
-            printf("Perimetr: %f, Area: %f\n" ,pcircle(a,rad), acircle(a,rad));
-        }
-        
-        else if((strstr(string, "triangle(") != NULL)) //strcmp - сравнивает строки, strstr - содержится ли строка.
+            printf("Perimetr: %.3f, Area: %.3f\n" ,pcircle(a,rad), acircle(a,rad));
+        }  
+        else if((strstr(string, "triangle(") != NULL)) 
         {
     	    point a;
     	    point b;
     	    point c;
     	    point d;
-    	    Excaption(string, 8, NULL, a, b, c, d); // 8 - предполагаемое количесвто символов
+    	    Exception(string); 
+            sscanf("triangle(%d %d, %d %d, %d %d, %d %d)", &a.x, &a.y, &b.x, &b.y, &c.x, &c.y, &d.x, &d.y);
             printf("Done");
             printf("Perimetr: %f, Area: %f\n", ptriangle(a,b,c,d), atriangle(a,b,c,d));
             
         }
-	//else if((strstr(string, "polygon(") != NULL)) //strcmp - сравнивает строки, strstr - содержится ли строка.
-        //{
-    //        printf("Done");
-    //    }
         else
         {
-            printf("Error at column 0: expected 'circle', 'triangle' or 'polygon' ");
-        }
-        
-    }while(string != "q");
+            if(strcmp(string, "q"))
+            {
+                printf("Error at column 0: expected 'circle', 'triangle' or 'polygon' \n"); 
+            }
+        }   
+    }while(strcmp(string, "q"));
     return 0;
 }
