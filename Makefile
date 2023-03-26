@@ -42,7 +42,7 @@ all: $(APP_PATH)
 $(APP_PATH): $(APP_OBJECTS) $(LIB_PATH)
 	$(CC) $(CFLAGS) $(CPPFLAGS) $^ -o $@ -lm
 
-$(LIB_PATH): $(LIB_OBJECTS)
+$(LIB_PATH): $(LIB_OBJECTS)#фатальная ошибка
 	ar rcs $@ $^
 
 $(OBJ_DIR)/%.o: %.c
