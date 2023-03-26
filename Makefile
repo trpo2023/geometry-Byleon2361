@@ -35,7 +35,7 @@ LIB_OBJECTS = $(LIB_SOURCES:$(SRC_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
 DEPS = $(APP_OBJECTS:.o=.d) $(LIB_OBJECTS:.o=.d)
 
 .PHONY: all clean run
-all: $(APP_PATH) run clean
+all: $(APP_PATH)
 
 -include $(DEPS)
 
