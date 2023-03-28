@@ -57,8 +57,11 @@ Object = 'circle' '(' Point ',' Number ')'\n\
             point a;
             double rad = 0;
             Exception(string);
-            sscanf(string, "circle(%d %d, %lf)", &a.x, &a.y, &rad);
-            printf("Done\n");
+            sscanf(string, "circle(%lf %lf, %lf)", &a.x, &a.y, &rad);
+
+            if (rad < 0) {
+                puts("Radius cannot be negative\n");
+            }
             printf("Perimetr: %.3f, Area: %.3f\n",
                    pcircle(a, rad),
                    acircle(a, rad));
@@ -68,7 +71,8 @@ Object = 'circle' '(' Point ',' Number ')'\n\
             point c;
             point d;
             Exception(string);
-            sscanf("triangle(%d %d, %d %d, %d %d, %d %d)",
+            sscanf(string,
+                   "triangle(%lf %lf, %lf %lf, %lf %lf, %lf %lf)",
                    &a.x,
                    &a.y,
                    &b.x,
@@ -77,7 +81,16 @@ Object = 'circle' '(' Point ',' Number ')'\n\
                    &c.y,
                    &d.x,
                    &d.y);
-            printf("Done");
+            if ((a.x != d.x) || (a.y != d.y)) {
+                puts("Failed to construct a triangle. A and d must match\n");
+                continue;
+            }
+            if (((a.x == b.x) && (b.x == c.x))
+                || ((a.y == b.y) && (b.y == c.y))) {
+                puts("Failed to construct a triangle. All points on the same "
+                     "line\n");
+                continue;
+            }
             printf("Perimetr: %f, Area: %f\n",
                    ptriangle(a, b, c, d),
                    atriangle(a, b, c, d));

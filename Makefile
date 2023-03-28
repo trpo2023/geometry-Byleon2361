@@ -16,6 +16,7 @@ LIB_NAME = libgeometry
 
 CFLAGS = -Wall 
 CPPFLAGS = -I src -MMD
+GDB = -g -O0
 
 BIN_DIR = bin
 OBJ_DIR = obj
@@ -35,18 +36,18 @@ LIB_OBJECTS = $(LIB_SOURCES:$(SRC_DIR)/%.$(SRC_EXT)=$(OBJ_DIR)/$(SRC_DIR)/%.o)
 DEPS = $(APP_OBJECTS:.o=.d) $(LIB_OBJECTS:.o=.d)
 
 .PHONY: all clean run
-all: $(APP_PATH)
+all: $(APP_PATH) 
 
 -include $(DEPS)
 
 $(APP_PATH): $(APP_OBJECTS) $(LIB_PATH)
-	$(CC) $(CFLAGS) $(CPPFLAGS) $^ -o $@ -lm
+	$(CC) $(CFLAGS) $(GDB) $(CPPFLAGS) $^ -o $@ -lm
 
 $(LIB_PATH): $(LIB_OBJECTS)#фатальная ошибка
 	ar rcs $@ $^
 
 $(OBJ_DIR)/%.o: %.c
-	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@ 
+	$(CC) -c $(CFLAGS) $(GDB) $(CPPFLAGS) $< -o $@ 
 run:
 	./$(APP_PATH)
 #@-не показывает в командой строке
