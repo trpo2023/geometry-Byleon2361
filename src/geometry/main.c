@@ -26,9 +26,9 @@ Object = 'circle' '(' Point ',' Number ')'\n\
             double rad = 0;
             sscanf(string, "circle(%lf %lf, %lf)", &o.x, &o.y, &rad);
             checkRad(rad);
-            printf("Perimetr: %.3f, Area: %.3f\n",
-                   pcircle(o, rad),
-                   acircle(o, rad));
+            printf("Perimetr circle: %.3f, Area circle: %.3f\n",
+                   perimeterCircle(o, rad),
+                   areaCircle(o, rad));
 
             break;
         case TRIANGLE:
@@ -48,9 +48,9 @@ Object = 'circle' '(' Point ',' Number ')'\n\
                    &d.y);
             dontDraw(a, d);
             lineException(a, b, c);
-            printf("Perimetr: %f, Area: %f\n",
-                   ptriangle(a, b, c, d),
-                   atriangle(a, b, c, d));
+            printf("Perimetr triangle: %f, Area triangle: %f\n",
+                   perimeterTriangle(a, b, c, d),
+                   areaTriangle(a, b, c, d));
             break;
         default:
             puts("Что-то пошло не так");
