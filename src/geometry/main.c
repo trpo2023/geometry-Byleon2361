@@ -1,9 +1,9 @@
-#include <libgeometry/exception.h>
-#include <libgeometry/geo.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include <libgeometry/exception.h>
+#include <libgeometry/geo.h>
 int main()
 {
     puts("Введите название фигуры и передайте значения по образцу:\n\n\
@@ -32,6 +32,7 @@ Object = 'circle' '(' Point ',' Number ')'\n\
 
             break;
         case TRIANGLE:
+
             point a;
             point b;
             point c;

@@ -1,8 +1,9 @@
-#include "exception.h"
-#include "geo.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "exception.h"
+#include "geo.h"
 // Ошибки ввода данных
 void checkBracket(char* string)
 {
@@ -58,7 +59,6 @@ void checkName(char* string, int* action)
         exit(EXIT_FAILURE);
     }
 }
-
 char* findEnd(char* string)
 {
     char* end;
@@ -69,6 +69,7 @@ char* findEnd(char* string)
     }
     return end;
 }
+    
 // Ошибки треугольника
 void lineException(point a, point b, point c)
 {
@@ -85,6 +86,7 @@ void dontDraw(point a, point d)
         exit(EXIT_FAILURE);
     }
 }
+
 // Ошибки круга
 void checkRad(int rad)
 {

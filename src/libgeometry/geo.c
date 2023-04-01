@@ -1,7 +1,8 @@
-#include <libgeometry/geo.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#include <libgeometry/geo.h>
 
 vector findVector(point first, point second)
 {
