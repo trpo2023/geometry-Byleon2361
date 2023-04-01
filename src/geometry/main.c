@@ -1,44 +1,9 @@
-#include <libgeometry/geo.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-void Exception(char* string)
-{
-    int length = strlen(string);
-    char* end;
-    char* start;
-    for (int i = 0; i < length; i++) {
-        if (string[i] == ')') {
-            end = &string[i];
-        }
-        if (string[i] == '(') {
-            start = &string[i];
-        }
-    }
-    if (end == NULL) {
-        printf("Error at column %d: expected ')' \n", length - 1);
-        exit(EXIT_FAILURE);
-    }
-
-    for (int i = 0; i < strlen(end); i++) {
-        if (!(end[i + 1] == ' ' || end[i + 1] == '\000')) {
-            printf("Error at column %d: unexpected token\n", length);
-            exit(EXIT_FAILURE);
-        }
-    }
-
-    for (int i = 0; i < end - start; i++) {
-        if (!(start[i + 1] == ' ' || start[i + 1] == ',' || start[i + 1] == '.'
-              || start[i + 1] == ')'
-              || ((int)start[i + 1] >= (int)'0'
-                  && (int)start[i + 1] <= (int)'9'))) {
-            printf("Error at column %d: expected '<double>'\n", i + 1);
-            exit(EXIT_FAILURE);
-        }
-    }
-}
-
+#include <libgeometry/exception.h>
+#include <libgeometry/geo.h>
 int main()
 {
     puts("Введите название фигуры и передайте значения по образцу:\n\n\
@@ -50,27 +15,28 @@ Object = 'circle' '(' Point ',' Number ')'\n\
     char string[64];
     do {
         gets(string);
-        if ((strstr(string, "circle(")
-             != NULL)) // strcmp - сравнивает строки, strstr - содержится ли
-                       // строка
-        {
-            point a;
+        int name;
+        checkName(string, &name);
+        checkBracket(string);
+        checkValue(string);
+        checkEndSym(string);
+        switch (name) {
+        case CIRCLE:
+            point o;
             double rad = 0;
-            Exception(string);
-            sscanf(string, "circle(%lf %lf, %lf)", &a.x, &a.y, &rad);
+            sscanf(string, "circle(%lf %lf, %lf)", &o.x, &o.y, &rad);
+            checkRad(rad);
+            printf("Perimetr circle: %.3f, Area circle: %.3f\n",
+                   perimeterCircle(o, rad),
+                   areaCircle(o, rad));
 
-            if (rad < 0) {
-                puts("Radius cannot be negative\n");
-            }
-            printf("Perimetr: %.3f, Area: %.3f\n",
-                   pcircle(a, rad),
-                   acircle(a, rad));
-        } else if ((strstr(string, "triangle(") != NULL)) {
+            break;
+        case TRIANGLE:
+
             point a;
             point b;
             point c;
             point d;
-            Exception(string);
             sscanf(string,
                    "triangle(%lf %lf, %lf %lf, %lf %lf, %lf %lf)",
                    &a.x,
@@ -81,25 +47,15 @@ Object = 'circle' '(' Point ',' Number ')'\n\
                    &c.y,
                    &d.x,
                    &d.y);
-            if ((a.x != d.x) || (a.y != d.y)) {
-                puts("Failed to construct a triangle. A and d must match\n");
-                continue;
-            }
-            if (((a.x == b.x) && (b.x == c.x))
-                || ((a.y == b.y) && (b.y == c.y))) {
-                puts("Failed to construct a triangle. All points on the same "
-                     "line\n");
-                continue;
-            }
-            printf("Perimetr: %f, Area: %f\n",
-                   ptriangle(a, b, c, d),
-                   atriangle(a, b, c, d));
-
-        } else {
-            if (strcmp(string, "q")) {
-                printf("Error at column 0: expected 'circle', 'triangle' or "
-                       "'polygon' \n");
-            }
+            dontDraw(a, d);
+            lineException(a, b, c);
+            printf("Perimetr triangle: %f, Area triangle: %f\n",
+                   perimeterTriangle(a, b, c, d),
+                   areaTriangle(a, b, c, d));
+            break;
+        default:
+            puts("Что-то пошло не так");
+            break;
         }
     } while (strcmp(string, "q"));
     return 0;
