@@ -69,7 +69,7 @@ char* findEnd(char* string)
     }
     return end;
 }
-    
+
 // Ошибки треугольника
 void lineException(point a, point b, point c)
 {

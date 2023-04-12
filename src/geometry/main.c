@@ -1,11 +1,22 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include <libgeometry/exception.h>
 #include <libgeometry/geo.h>
+
+#define MAXSIZESEGMENT
+
+segment allSegments[MAXSIZESEGMENT];
+
+// Сделать пересечение фигур
+// Добавить скобки для треугольника
+// Покрыть тестами
 int main()
 {
+    int count = 0;
+    bool intersection = false;
     puts("Введите название фигуры и передайте значения по образцу:\n\n\
 Object = 'circle' '(' Point ',' Number ')'\n\
 | 'triangle' '(' '(' Point ',' Point ',' Point ',' Point ')' ')'\n\
@@ -52,6 +63,33 @@ Object = 'circle' '(' Point ',' Number ')'\n\
             printf("Perimetr triangle: %f, Area triangle: %f\n",
                    perimeterTriangle(a, b, c, d),
                    areaTriangle(a, b, c, d));
+            /*
+            segment first = {a, b};
+            segment second = {b, c};
+            segment third = {c, d};
+            if (count == 0) {
+                allSegments[0] = first;
+                allSegments[1] = second;
+                allSegments[2] = third;
+                count = 3;
+                continue;
+            }
+            for (int i = 0; i < count; i++) {
+                if (checkIntersection(first, allSegments[i]))
+                    intersection = true;
+                if (checkIntersection(second, allSegments[i]))
+                    intersection = true;
+                if (checkIntersection(third, allSegments[i]))
+                    intersection = true;
+            }
+            count += 3;
+            allSegments[count - 2] = first;
+            allSegments[count - 1] = second;
+            allSegments[count] = third;
+            if (intersection)
+                printf("Пересекается");
+            intersection = false;
+            */
             break;
         default:
             puts("Что-то пошло не так");
