@@ -47,10 +47,10 @@ void checkName(char* string, int* action)
     if ((strstr(string, "circle(")
          != NULL)) // strcmp - сравнивает строки, strstr - содержится ли строка
     {
-        action = CIRCLE;
+        *action = CIRCLE;
 
     } else if ((strstr(string, "triangle(") != NULL)) {
-        action = TRIANGLE;
+        *action = TRIANGLE;
 
     } else if ((strstr(string, "q") != NULL)) {
     } else {
