@@ -5,12 +5,15 @@
 
 #include <libgeometry/exception.h>
 #include <libgeometry/geo.h>
+#include <libgeometry/intersection.h>
 
 #define MAXSIZESEGMENTS 100
 #define MAXSIZEFIGURES 100
 
 segment allSegments[MAXSIZESEGMENTS];
 figure allFigures[MAXSIZEFIGURES];
+int countFigures = 0;
+int countSegments = 0;
 // Сделать пересечение фигур
 // Добавить скобки для треугольника
 // Покрыть тестами
@@ -25,7 +28,7 @@ int main(int argc, char* argv[])
 
     int count = 0;
     int number = 0;
-    bool intersection = false;
+    figure newFigure;
     puts("Введите название фигуры и передайте значения по образцу:\n\n\
 Object = 'circle' '(' Point ',' Number ')'\n\
 | 'triangle' '(' '(' Point ',' Point ',' Point ',' Point ')' ')'\n\n\
@@ -50,12 +53,18 @@ Object = 'circle' '(' Point ',' Number ')'\n\
             sscanf(string, "circle(%lf %lf, %lf)", &o.x, &o.y, &rad);
             checkRad(rad);
 
+            newFigure.number = ++number;
+            strcpy(newFigure.name, string);
+            newFigure.perimeter = perimeterCircle(o, rad);
+            newFigure.area = areaCircle(o, rad);
+            newFigure.type = name;
+
             printf("%d. %s\n Perimetr circle: %.3f\n Area circle: %.3f\n",
                    number++,
                    string,
                    perimeterCircle(o, rad),
                    areaCircle(o, rad));
-
+            checkIntersection(newFigure, countFigures, allFigures);
             break;
         case TRIANGLE:
 
@@ -76,43 +85,19 @@ Object = 'circle' '(' Point ',' Number ')'\n\
             dontDraw(a, d);
             lineException(a, b, c);
 
-            figure newFigure;
             newFigure.number = ++number;
             strcpy(newFigure.name, string);
             newFigure.perimeter = perimeterTriangle(a, b, c, d);
             newFigure.area = areaTriangle(a, b, c, d);
+            newFigure.type = name;
 
             printf("%d. %s\nPerimetr triangle: %f\n Area triangle: %f\n",
                    newFigure.number,
                    newFigure.name,
                    newFigure.perimeter,
                    newFigure.area);
-
-            segment first = {a, b};
-            segment second = {b, c};
-            segment third = {c, d};
-            if (count == 0) {
-                allSegments[0] = first;
-                allSegments[1] = second;
-                allSegments[2] = third;
-                count = 3;
-                continue;
-            }
-            for (int i = 0; i < count; i++) {
-                if (checkIntersection(first, allSegments[i]))
-                    intersection = true;
-                if (checkIntersection(second, allSegments[i]))
-                    intersection = true;
-                if (checkIntersection(third, allSegments[i]))
-                    intersection = true;
-            }
-            count += 3;
-            allSegments[count - 2] = first;
-            allSegments[count - 1] = second;
-            allSegments[count] = third;
-            if (intersection)
-                printf("Пересекается");
-            intersection = false;
+            checkIntersection(newFigure, countFigures, allFigures);
+            allFigures[countFigures++] = newFigure;
 
             break;
         default:

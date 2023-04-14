@@ -1,6 +1,6 @@
-#ifndef GEO_H
-#define GEO_H
+#pragma once
 #include <stdbool.h>
+
 typedef struct Point {
     double x;
     double y;
@@ -19,7 +19,7 @@ typedef struct Figure {
     char name[100];
     double perimeter;
     double area;
-    // insertion
+    int type;
 } figure;
 
 vector findVector(point first, point second);
@@ -28,13 +28,3 @@ double perimeterCircle(point center, double rad);
 double areaCircle(point center, double rad);
 double perimeterTriangle(point a, point b, point c, point d);
 double areaTriangle(point a, point b, point c, point d);
-bool rangeIntersection(
-        double firstStart,
-        double firstEnd,
-        double secondStart,
-        double secondEnd);
-bool boundingBox(segment firstSegment, segment secondSegment);
-
-bool checkIntersection(segment ab, segment cd);
-double vectorCrossProduct(vector vector1, vector vector2);
-#endif
