@@ -36,7 +36,8 @@ void checkEndSym(char* string)
 {
     char* end = findEnd(string);
     for (int i = 0; i < strlen(end); i++) {
-        if (!(end[i + 1] == ' ' || end[i + 1] == '\000')) {
+        if (!(end[i + 1] == ' ' || end[i + 1] == '\000'
+              || end[i + 1] == '\n')) {
             printf("Error at column %ld: unexpected token\n", strlen(string));
             exit(EXIT_FAILURE);
         }

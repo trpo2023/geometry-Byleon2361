@@ -14,20 +14,29 @@ figure allFigures[MAXSIZEFIGURES];
 // Сделать пересечение фигур
 // Добавить скобки для треугольника
 // Покрыть тестами
-int main()
+int main(int argc, char* argv[])
 {
+    printf("%d", argc);
+    const char* in_file_name = argv[1];
+    FILE* f;
+    if (argc == 2) {
+        f = fopen(in_file_name, "r");
+    }
+
     int count = 0;
     int number = 0;
     bool intersection = false;
     puts("Введите название фигуры и передайте значения по образцу:\n\n\
 Object = 'circle' '(' Point ',' Number ')'\n\
-| 'triangle' '(' '(' Point ',' Point ',' Point ',' Point ')' ')'\n\
-| 'polygon' '(' '(' Point ',' Point ',' Point {',' Point } ')' ')'\n\n\
+| 'triangle' '(' '(' Point ',' Point ',' Point ',' Point ')' ')'\n\n\
 Пример: circle(0 0, 1.5)\n\n\
 Для того, чтобы выйти введите q.\n");
     char string[64];
     do {
-        gets(string);
+        if (argc == 2)
+            fgets(string, 64, f);
+        else
+            fgets(string, 64, stdin);
         int name;
 
         checkName(string, &name);
@@ -110,6 +119,6 @@ Object = 'circle' '(' Point ',' Number ')'\n\
             puts("Что-то пошло не так");
             break;
         }
-    } while (strcmp(string, "q"));
+    } while ((strcmp(string, "q")) && (!feof(f)));
     return 0;
 }
