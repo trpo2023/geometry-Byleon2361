@@ -14,28 +14,28 @@ double lengthVector(vector vec)
     return sqrt(vec.a * vec.a + vec.b * vec.b);
 }
 
-float perimeterCircle(point center, double rad)
+double perimeterCircle(point center, double rad)
 {
     return 2 * M_PI * rad;
 }
-float areaCircle(point center, double rad)
+double areaCircle(point center, double rad)
 {
     return M_PI * rad * rad;
 }
 
-float perimeterTriangle(point a, point b, point c, point d)
+double perimeterTriangle(point a, point b, point c, point d)
 {
-    float first = lengthVector(findVector(a, b));
-    float second = lengthVector(findVector(b, c));
-    float third = lengthVector(findVector(c, d));
+    double first = lengthVector(findVector(a, b));
+    double second = lengthVector(findVector(b, c));
+    double third = lengthVector(findVector(c, d));
     return first + second + third;
 }
-float areaTriangle(point a, point b, point c, point d) // По формуле Герона
+double areaTriangle(point a, point b, point c, point d) // По формуле Герона
 {
-    float p = perimeterTriangle(a, b, c, d) / 2;
-    float ta = lengthVector(findVector(a, b));
-    float tb = lengthVector(findVector(b, c));
-    float tc = lengthVector(findVector(c, d));
+    double p = perimeterTriangle(a, b, c, d) / 2;
+    double ta = lengthVector(findVector(a, b));
+    double tb = lengthVector(findVector(b, c));
+    double tc = lengthVector(findVector(c, d));
     return sqrt(p * (p - ta) * (p - tb) * (p - tc));
 }
 

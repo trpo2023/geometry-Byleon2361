@@ -6,16 +6,18 @@
 #include <libgeometry/exception.h>
 #include <libgeometry/geo.h>
 
-#define MAXSIZESEGMENT
+#define MAXSIZESEGMENTS 100
+#define MAXSIZEFIGURES 100
 
-segment allSegments[MAXSIZESEGMENT];
-
+segment allSegments[MAXSIZESEGMENTS];
+figure allFigures[MAXSIZEFIGURES];
 // Сделать пересечение фигур
 // Добавить скобки для треугольника
 // Покрыть тестами
 int main()
 {
     int count = 0;
+    int number = 0;
     bool intersection = false;
     puts("Введите название фигуры и передайте значения по образцу:\n\n\
 Object = 'circle' '(' Point ',' Number ')'\n\
@@ -27,6 +29,7 @@ Object = 'circle' '(' Point ',' Number ')'\n\
     do {
         gets(string);
         int name;
+
         checkName(string, &name);
         checkBracket(string);
         checkValue(string);
@@ -37,7 +40,10 @@ Object = 'circle' '(' Point ',' Number ')'\n\
             double rad = 0;
             sscanf(string, "circle(%lf %lf, %lf)", &o.x, &o.y, &rad);
             checkRad(rad);
-            printf("Perimetr circle: %.3f, Area circle: %.3f\n",
+
+            printf("%d. %s\n Perimetr circle: %.3f\n Area circle: %.3f\n",
+                   number++,
+                   string,
                    perimeterCircle(o, rad),
                    areaCircle(o, rad));
 
@@ -60,10 +66,19 @@ Object = 'circle' '(' Point ',' Number ')'\n\
                    &d.y);
             dontDraw(a, d);
             lineException(a, b, c);
-            printf("Perimetr triangle: %f, Area triangle: %f\n",
-                   perimeterTriangle(a, b, c, d),
-                   areaTriangle(a, b, c, d));
-            /*
+
+            figure newFigure;
+            newFigure.number = ++number;
+            strcpy(newFigure.name, string);
+            newFigure.perimeter = perimeterTriangle(a, b, c, d);
+            newFigure.area = areaTriangle(a, b, c, d);
+
+            printf("%d. %s\nPerimetr triangle: %f\n Area triangle: %f\n",
+                   newFigure.number,
+                   newFigure.name,
+                   newFigure.perimeter,
+                   newFigure.area);
+
             segment first = {a, b};
             segment second = {b, c};
             segment third = {c, d};
@@ -89,7 +104,7 @@ Object = 'circle' '(' Point ',' Number ')'\n\
             if (intersection)
                 printf("Пересекается");
             intersection = false;
-            */
+
             break;
         default:
             puts("Что-то пошло не так");

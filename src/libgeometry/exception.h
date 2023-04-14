@@ -8,3 +8,4 @@ void checkName(char* string, int* action);
 char* findEnd(char* string);
 void dontDraw(point a, point d);
 void checkRad(int rad);
+void lineException(point a, point b, point c);

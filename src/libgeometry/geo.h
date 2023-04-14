@@ -14,12 +14,20 @@ typedef struct Segment {
     point end;
 } segment; // Отрезок
 
+typedef struct Figure {
+    int number;
+    char name[100];
+    double perimeter;
+    double area;
+    // insertion
+} figure;
+
 vector findVector(point first, point second);
 double lengthVector(vector vec);
-float perimeterCircle(point center, double rad);
-float areaCircle(point center, double rad);
-float perimeterTriangle(point a, point b, point c, point d);
-float areaTriangle(point a, point b, point c, point d);
+double perimeterCircle(point center, double rad);
+double areaCircle(point center, double rad);
+double perimeterTriangle(point a, point b, point c, point d);
+double areaTriangle(point a, point b, point c, point d);
 bool rangeIntersection(
         double firstStart,
         double firstEnd,

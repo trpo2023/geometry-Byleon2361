@@ -9,7 +9,7 @@ void checkBracket(char* string)
 {
     char* end = findEnd(string);
     if (end == NULL) {
-        printf("Error at column %d: expected ')' \n", strlen(string) - 1);
+        printf("Error at column %ld: expected ')' \n", strlen(string) - 1);
         exit(EXIT_FAILURE);
     }
 }
@@ -37,7 +37,7 @@ void checkEndSym(char* string)
     char* end = findEnd(string);
     for (int i = 0; i < strlen(end); i++) {
         if (!(end[i + 1] == ' ' || end[i + 1] == '\000')) {
-            printf("Error at column %d: unexpected token\n", strlen(string));
+            printf("Error at column %ld: unexpected token\n", strlen(string));
             exit(EXIT_FAILURE);
         }
     }
