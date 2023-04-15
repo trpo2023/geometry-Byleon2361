@@ -1,11 +1,11 @@
 #pragma once
 #include "geo.h"
 enum { CIRCLE = 0, TRIANGLE };
-void checkBracket(char* string);
-void checkValue(char* string);
-void checkEndSym(char* string);
-void checkName(char* string, int* action);
+bool checkBracket(char* string, char* output);
+bool checkValue(char* string, char* output);
+bool checkEndSym(char* string, char* output);
+bool checkName(char* string, int* action);
 char* findEnd(char* string);
-void dontDraw(point a, point d);
-void checkRad(int rad);
-void lineException(point a, point b, point c);
+bool dontDraw(point a, point d);
+bool checkRad(int rad);
+bool lineException(point a, point b, point c);

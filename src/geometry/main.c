@@ -29,6 +29,8 @@ int main(int argc, char* argv[])
     int count = 0;
     int number = 0;
     figure newFigure;
+    char outputException[200];
+    bool q = false;
     puts("Введите название фигуры и передайте значения по образцу:\n\n\
 Object = 'circle' '(' Point ',' Number ')'\n\
 | 'triangle' '(' '(' Point ',' Point ',' Point ',' Point ')' ')'\n\n\
@@ -36,22 +38,40 @@ Object = 'circle' '(' Point ',' Number ')'\n\
 Для того, чтобы выйти введите q.\n");
     char string[64];
     do {
-        if (argc == 2)
-            fgets(string, 64, f);
-        else
+        if (argc == 2) {
+            if (fgets(string, 64, f) == NULL)
+                break;
+        } else
             fgets(string, 64, stdin);
         int name;
 
-        checkName(string, &name);
-        checkBracket(string);
-        checkValue(string);
-        checkEndSym(string);
+        if (!checkName(string, &name)) {
+            puts("Error at column 0: expected 'circle', 'triangle' or "
+                 "'polygon' \n");
+            continue;
+        }
+        if (!checkBracket(string, outputException)) {
+            printf("%s", outputException);
+            continue;
+        }
+        if (!checkValue(string, outputException)) {
+            printf("%s", outputException);
+            continue;
+        }
+        if (!checkEndSym(string, outputException)) {
+            printf("%s", outputException);
+            continue;
+        }
+
         switch (name) {
         case CIRCLE:
             point o;
             double rad = 0;
             sscanf(string, "circle(%lf %lf, %lf)", &o.x, &o.y, &rad);
-            checkRad(rad);
+
+            if (!checkRad(rad)) {
+                puts("Radius cannot be negative\n");
+            }
 
             newFigure.number = ++number;
             strcpy(newFigure.name, string);
@@ -59,11 +79,11 @@ Object = 'circle' '(' Point ',' Number ')'\n\
             newFigure.area = areaCircle(o, rad);
             newFigure.type = name;
 
-            printf("%d. %s\n Perimetr circle: %.3f\n Area circle: %.3f\n",
-                   number++,
-                   string,
-                   perimeterCircle(o, rad),
-                   areaCircle(o, rad));
+            printf("%d. %s\nPerimetr circle: %.3f\nArea circle: %.3f\n",
+                   newFigure.number,
+                   newFigure.name,
+                   newFigure.perimeter,
+                   newFigure.area);
             checkIntersection(newFigure, countFigures, allFigures);
             break;
         case TRIANGLE:
@@ -73,7 +93,7 @@ Object = 'circle' '(' Point ',' Number ')'\n\
             point c;
             point d;
             sscanf(string,
-                   "triangle(%lf %lf, %lf %lf, %lf %lf, %lf %lf)",
+                   "triangle((%lf %lf, %lf %lf, %lf %lf, %lf %lf))",
                    &a.x,
                    &a.y,
                    &b.x,
@@ -82,8 +102,16 @@ Object = 'circle' '(' Point ',' Number ')'\n\
                    &c.y,
                    &d.x,
                    &d.y);
-            dontDraw(a, d);
-            lineException(a, b, c);
+
+            if (!dontDraw(a, d)) {
+                puts("Failed to construct a triangle. A and d must match\n");
+                continue;
+            }
+            if (!lineException(a, b, c)) {
+                puts("Failed to construct a triangle. All points on the same "
+                     "line\n");
+                continue;
+            }
 
             newFigure.number = ++number;
             strcpy(newFigure.name, string);
@@ -91,7 +119,7 @@ Object = 'circle' '(' Point ',' Number ')'\n\
             newFigure.area = areaTriangle(a, b, c, d);
             newFigure.type = name;
 
-            printf("%d. %s\nPerimetr triangle: %f\n Area triangle: %f\n",
+            printf("%d. %s\nPerimetr triangle: %f\nArea triangle: %f\n",
                    newFigure.number,
                    newFigure.name,
                    newFigure.perimeter,
@@ -104,6 +132,7 @@ Object = 'circle' '(' Point ',' Number ')'\n\
             puts("Что-то пошло не так");
             break;
         }
-    } while ((strcmp(string, "q")) && (!feof(f)));
+    } while (true);
+    fclose(f);
     return 0;
 }

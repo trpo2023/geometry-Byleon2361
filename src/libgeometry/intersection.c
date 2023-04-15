@@ -141,7 +141,7 @@ void checkIntersection(figure firstFigure, int countFigures, figure* allFigures)
             point c;
             point d;
             sscanf(firstFigure.name,
-                   "triangle(%lf %lf, %lf %lf, %lf %lf, %lf %lf)",
+                   "triangle((%lf %lf, %lf %lf, %lf %lf, %lf %lf))",
                    &a.x,
                    &a.y,
                    &b.x,
@@ -162,7 +162,7 @@ void checkIntersection(figure firstFigure, int countFigures, figure* allFigures)
             point c;
             point d;
             sscanf(secondFigure.name,
-                   "triangle(%lf %lf, %lf %lf, %lf %lf, %lf %lf)",
+                   "triangle((%lf %lf, %lf %lf, %lf %lf, %lf %lf))",
                    &a.x,
                    &a.y,
                    &b.x,
@@ -183,7 +183,7 @@ void checkIntersection(figure firstFigure, int countFigures, figure* allFigures)
             point c;
             point d;
             sscanf(firstFigure.name,
-                   "triangle(%lf %lf, %lf %lf, %lf %lf, %lf %lf)",
+                   "triangle((%lf %lf, %lf %lf, %lf %lf, %lf %lf))",
                    &a.x,
                    &a.y,
                    &b.x,
@@ -196,7 +196,7 @@ void checkIntersection(figure firstFigure, int countFigures, figure* allFigures)
             segment firstFigureSecondSegment = {b, c};
             segment firstFigureThirdSegment = {c, d};
             sscanf(secondFigure.name,
-                   "triangle(%lf %lf, %lf %lf, %lf %lf, %lf %lf)",
+                   "triangle((%lf %lf, %lf %lf, %lf %lf, %lf %lf))",
                    &a.x,
                    &a.y,
                    &b.x,
