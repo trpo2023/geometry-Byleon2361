@@ -45,20 +45,20 @@ Object = 'circle' '(' Point ',' Number ')'\n\
             fgets(string, 64, stdin);
         int name;
 
-        if (!checkName(string, &name)) {
+        if (checkNameException(string, &name)) {
             puts("Error at column 0: expected 'circle', 'triangle' or "
                  "'polygon' \n");
             continue;
         }
-        if (!checkBracket(string, outputException)) {
+        if (checkBracketException(string, outputException)) {
             printf("%s", outputException);
             continue;
         }
-        if (!checkValue(string, outputException)) {
+        if (checkValueException(string, outputException)) {
             printf("%s", outputException);
             continue;
         }
-        if (!checkEndSym(string, outputException)) {
+        if (checkEndSymException(string, outputException)) {
             printf("%s", outputException);
             continue;
         }
@@ -69,7 +69,7 @@ Object = 'circle' '(' Point ',' Number ')'\n\
             double rad = 0;
             sscanf(string, "circle(%lf %lf, %lf)", &o.x, &o.y, &rad);
 
-            if (!checkRad(rad)) {
+            if (checkRadException(rad)) {
                 puts("Radius cannot be negative\n");
             }
 
@@ -103,11 +103,11 @@ Object = 'circle' '(' Point ',' Number ')'\n\
                    &d.x,
                    &d.y);
 
-            if (!dontDraw(a, d)) {
+            if (drawException(a, d)) {
                 puts("Failed to construct a triangle. A and d must match\n");
                 continue;
             }
-            if (!lineException(a, b, c)) {
+            if (checkLineException(a, b, c)) {
                 puts("Failed to construct a triangle. All points on the same "
                      "line\n");
                 continue;

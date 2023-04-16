@@ -7,18 +7,18 @@
 #include "geo.h"
 // Ошибки ввода данных
 bool check = false;
-bool checkBracket(char* string, char* output)
+bool checkBracketException(char* string, char* output)
 {
     char* end = findEnd(string);
     if (end == NULL) {
         sprintf(output,
                 "Error at column %ld: expected ')' \n",
                 strlen(string) - 1);
-        return false;
+        return true;
     }
-    return true;
+    return false;
 }
-bool checkValue(char* string, char* output)
+bool checkValueException(char* string, char* output)
 {
     char* start;
     for (int i = 0; i < strlen(string); i++) {
@@ -33,12 +33,12 @@ bool checkValue(char* string, char* output)
               || ((int)start[i + 1] >= (int)'0'
                   && (int)start[i + 1] <= (int)'9'))) {
             sprintf(output, "Error at column %d: expected '<double>'\n", i + 1);
-            return false;
+            return true;
         }
     }
-    return true;
+    return false;
 }
-bool checkEndSym(char* string, char* output)
+bool checkEndSymException(char* string, char* output)
 {
     char* end = findEnd(string);
     for (int i = 0; i < strlen(end); i++) {
@@ -47,12 +47,12 @@ bool checkEndSym(char* string, char* output)
             printf(output,
                    "Error at column %ld: unexpected token\n",
                    strlen(string));
-            return false;
+            return true;
         }
     }
-    return true;
+    return false;
 }
-bool checkName(char* string, int* action)
+bool checkNameException(char* string, int* action)
 {
     if ((strstr(string, "circle(")
          != NULL)) // strcmp - сравнивает строки, strstr - содержится ли строка
@@ -65,9 +65,9 @@ bool checkName(char* string, int* action)
     } else if ((strstr(string, "q") != NULL)) {
         exit(EXIT_SUCCESS);
     } else {
-        return false;
+        return true;
     }
-    return true;
+    return false;
 }
 char* findEnd(char* string)
 {
@@ -81,26 +81,26 @@ char* findEnd(char* string)
 }
 
 // Ошибки треугольника
-bool lineException(point a, point b, point c)
+bool checkLineException(point a, point b, point c)
 {
     if (((a.x == b.x) && (b.x == c.x)) || ((a.y == b.y) && (b.y == c.y)))
-        return false;
+        return true;
 
-    return true;
+    return false;
 }
-bool dontDraw(point a, point d)
+bool drawException(point a, point d)
 {
     if ((a.x != d.x) || (a.y != d.y))
-        return false;
+        return true;
 
-    return true;
+    return false;
 }
 
 // Ошибки круга
-bool checkRad(int rad)
+bool checkRadException(int rad)
 {
     if (rad < 0)
-        return false;
+        return true;
 
-    return true;
+    return false;
 }
