@@ -26,11 +26,10 @@ int main(int argc, char* argv[])
         f = fopen(in_file_name, "r");
     }
 
-    int count = 0;
     int number = 0;
     figure newFigure;
     char outputException[200];
-    bool q = false;
+
     puts("Введите название фигуры и передайте значения по образцу:\n\n\
 Object = 'circle' '(' Point ',' Number ')'\n\
 | 'triangle' '(' '(' Point ',' Point ',' Point ',' Point ')' ')'\n\n\

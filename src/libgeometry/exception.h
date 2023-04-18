@@ -8,5 +8,5 @@ bool checkEndSymException(char* string, char* output);
 bool checkNameException(char* string, int* action);
 char* findEnd(char* string);
 bool drawException(point a, point d);
-bool checkRadException(int rad);
+bool checkRadException(double rad);
 bool checkLineException(point a, point b, point c);

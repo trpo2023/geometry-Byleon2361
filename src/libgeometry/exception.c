@@ -97,7 +97,7 @@ bool drawException(point a, point d)
 }
 
 // Ошибки круга
-bool checkRadException(int rad)
+bool checkRadException(double rad)
 {
     if (rad < 0)
         return true;

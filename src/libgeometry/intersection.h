@@ -1,6 +1,6 @@
 #pragma once
 #include "geo.h"
-
+// Если есть пересечения возвращает true
 bool rangeIntersection(
         double firstStart,
         double firstEnd,
