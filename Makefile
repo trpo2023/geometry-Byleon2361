@@ -54,9 +54,7 @@ $(OBJ_DIR)/test/main.o: test/main.c
 
 $(OBJ_DIR)/test/tests.o: test/tests.c
 	$(CC) $(TESTFLAGS) $(CFLAGS) $(DEPSFLAGS) -c -o $@ $<
-
-run: all
-	$(APP_PATH) $(BIN_DIR)/test.txt
-
+run:
+	./$(APP_PATH)
 clean:
 	rm -f $(APP_PATH) $(LIB_PATH) $(LIB_OBJECTS) $(APP_OBJECTS) $(DEPS) $(TEST_PATH) $(TEST_OBJECTS)

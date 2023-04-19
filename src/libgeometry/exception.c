@@ -71,7 +71,7 @@ bool checkNameException(char* string, int* action)
 }
 char* findEnd(char* string)
 {
-    char* end;
+    char* end = NULL;
     for (int i = 0; i < strlen(string); i++) {
         if (string[i] == ')') {
             end = &string[i];
@@ -85,7 +85,9 @@ bool checkLineException(point a, point b, point c)
 {
     if (((a.x == b.x) && (b.x == c.x)) || ((a.y == b.y) && (b.y == c.y)))
         return true;
-
+    if((a.x == c.y) && (b.x == b.y) && (c.x == a.y)) // Диагональ
+	true;
+	
     return false;
 }
 bool drawException(point a, point d)

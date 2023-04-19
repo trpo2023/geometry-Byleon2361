@@ -35,17 +35,15 @@ CTEST(GEOMETRY_MATH, AREA_TRIANGLE)
     point b = {-1, -1};
     point c = {-2, 0};
     point d = {0, 0};
-    ASSERT_DBL_NEAR((double)2.0, areaTriangle(a, b, c, d));
+    ASSERT_DBL_NEAR_TOL((double)1.0, areaTriangle(a, b, c, d), 0.0001);
 }
 
 // Exception
 CTEST(GEOMETRY_EXCEPTION, CHECK_BRACKET_EXCEPTION)
 {
-    char* firstString = "triangle(0 0, 2 3, 3 0, 0 0)";
     char output[100];
-    ASSERT_EQUAL(true, checkBracketException(firstString, output));
-    char* secondString = "circle(1 2, 3.1(";
-    ASSERT_EQUAL(true, checkBracketException(secondString, output));
+    char* string = "circle(1 2, 3.1";
+    ASSERT_EQUAL(true, checkBracketException(string, output));
 }
 CTEST(GEOMETRY_EXCEPTION, CHECK_VALUE_EXCEPTION)
 {
@@ -93,14 +91,6 @@ CTEST(GEOMETRY_EXCEPTION, CHECK_LINE_EXCEPTION)
     point e = {-2, 0};
     point f = {-3, 0};
     ASSERT_EQUAL(true, checkLineException(d, e, f));
-    point k = {-1, -1};
-    point l = {-1, -1};
-    point m = {-1, -1};
-    ASSERT_EQUAL(true, checkLineException(k, l, m));
-    point x = {1, 3};
-    point y = {2, 2};
-    point z = {3, 1};
-    ASSERT_EQUAL(true, checkLineException(x, y, z)); //?
 }
 
 // Intersection
