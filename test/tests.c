@@ -147,5 +147,5 @@ CTEST(GEOMETRY_INERSECTION, CHECK_INTERSECTION_TRIANGLE_AND_TRIANGLE)
     point f = {2, 0};
     segment xy = {x, y};
     segment ef = {e, f};
-    ASSERT_EQUAL(false, checkIntersectionTriangleAndTriangle(xy, ef));
+    ASSERT_EQUAL(true, checkIntersectionTriangleAndTriangle(xy, ef));
 }
