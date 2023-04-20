@@ -63,8 +63,7 @@ Object = 'circle' '(' Point ',' Number ')'\n\
         }
 
         switch (name) {
-        case CIRCLE:
-        {
+        case CIRCLE: {
             point o;
             double rad = 0;
             sscanf(string, "circle(%lf %lf, %lf)", &o.x, &o.y, &rad);
@@ -85,11 +84,8 @@ Object = 'circle' '(' Point ',' Number ')'\n\
                    newFigure.perimeter,
                    newFigure.area);
             checkIntersection(newFigure, countFigures, allFigures);
-        }
-            break;
-        case TRIANGLE:
-        {
-
+        } break;
+        case TRIANGLE: {
             point a;
             point b;
             point c;
@@ -128,8 +124,7 @@ Object = 'circle' '(' Point ',' Number ')'\n\
                    newFigure.area);
             checkIntersection(newFigure, countFigures, allFigures);
             allFigures[countFigures++] = newFigure;
-	}
-            break;
+        } break;
         default:
             puts("Что-то пошло не так");
             break;
