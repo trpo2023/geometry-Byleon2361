@@ -85,9 +85,9 @@ bool checkLineException(point a, point b, point c)
 {
     if (((a.x == b.x) && (b.x == c.x)) || ((a.y == b.y) && (b.y == c.y)))
         return true;
-    if ((a.x == c.y) && (b.x == b.y) && (c.x == a.y)) // Диагональ
+    if (((abs(b.x) > abs(a.x)) && (abs(b.x) < abs(c.x)))
+        && ((abs(b.y) > abs(a.y)) && (abs(b.y) < abs(c.y)))) // Диагональ
         return true;
-
     return false;
 }
 bool drawException(point a, point d)
