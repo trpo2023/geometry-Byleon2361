@@ -14,6 +14,6 @@ jobs:
 
       - name: Build application
         run: make
-
-      - name: Message
-        run: echo "Hello"
+        
+      - name: Build application with test
+        run: make test

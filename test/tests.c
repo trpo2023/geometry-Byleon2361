@@ -91,6 +91,10 @@ CTEST(GEOMETRY_EXCEPTION, CHECK_LINE_EXCEPTION)
     point e = {-2, 0};
     point f = {-3, 0};
     ASSERT_EQUAL(true, checkLineException(d, e, f));
+    point x = {0, 0};
+    point y = {-1, -2};
+    point z = {-2, -4};
+    ASSERT_EQUAL(true, checkLineException(x, y, z));
 }
 
 // Intersection
